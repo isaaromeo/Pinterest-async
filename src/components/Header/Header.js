@@ -56,11 +56,13 @@ export const Header = () => {
     const explore = document.querySelector(".Explore");
 
     home.addEventListener("click", () => {
+        home.preventDefault();
         store.setState({ currentPage: "Home", query: "random" });
         window.location.hash = "#home";
     });
 
-    explore.addEventListener("click", () => {
+    explore.addEventListener("click", (e) => {
+        e.preventDefault();
         store.setState({ currentPage: "Explore", query: "crystal" });
         window.location.hash = "#explore";
     });

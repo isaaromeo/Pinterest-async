@@ -34,7 +34,7 @@ export const router = {
             store.setState({ currentPage: "Home", query: "random" });
         },
         "#explore": () => {
-            store.setState({ currentPage: "Explore", query: "crystal" });
+            store.setState({ currentPage: "Explore", query: "cat" });
         },
     },
 

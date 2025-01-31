@@ -96,7 +96,7 @@ export const Body = () => {
          console.log("resize");
          layoutMasonry();
      });
-     
+
     input.addEventListener("change", async () => {
         clearGrid();
         await getPinData(input.value);
@@ -149,9 +149,9 @@ export const getPinData = async (query) => {
     try {
         console.log(query)
         const pinData = await request(query);
-        console.log("hola", pinData)
+        console.log("pin data: ", pinData)
         const Pins = printBody(pinData);
-        console.log(Pins)
+        console.log("Pins:",  Pins);
         sessionStorage.setItem("pinInfo", JSON.stringify(Pins));
         setTimeout(() => {
             layoutMasonry();
@@ -159,7 +159,7 @@ export const getPinData = async (query) => {
         layoutMasonry()
         
     } catch (error) {
-        console.log("data could not be retrieved")
+        console.log("Error in getPinData: ", error)
     }
     
     
