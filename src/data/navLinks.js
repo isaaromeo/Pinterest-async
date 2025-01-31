@@ -20,16 +20,16 @@ export const navIcons = [
     {
         path: "./layout/",
         text: "Alerts",
-        img: ".//public/assets/imgs/alert.png"
+        img: "/assets/imgs/alert.png"
     },
     {
         path: "./layout/",
         text: "Messages",
-        img: ".//public/assets/imgs/messages.png"
+        img: "/assets/imgs/messages.png"
     },
     {
         path: "./layout/",
         text: "Profile",
-        img: ".//public/assets/imgs/profile.png"
+        img: "/assets/imgs/profile.png"
     }
 ]

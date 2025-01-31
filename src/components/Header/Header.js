@@ -1,6 +1,7 @@
 import { navLinks } from "../NavLink/NavLink";
 import { navButtons, navIcons } from "../../data/navLinks";
 import { getSavedPins } from "../Pin/Pin";
+import { store } from "../../store";
 
 import "./_Header.scss";
 
@@ -13,7 +14,7 @@ export const Header = () => {
 
     const logo = document.createElement("img");
     logo.alt = "Pinteret logo";
-    logo.src = "../public/assets/imgs/logo.png"
+    logo.src = "/assets/imgs/logo.png"
 
     const navBar = document.createElement("nav");
     const ulButtons = document.createElement("ul");
@@ -27,7 +28,7 @@ export const Header = () => {
     const divSearch = document.createElement("div");
     divSearch.classList.add("search")
     const searchIcon = document.createElement("img");
-    searchIcon.src = "../public/assets/imgs/search.png"
+    searchIcon.src = "/assets/imgs/search.png"
     searchIcon.alt = "search"
     const search = document.createElement("input");
     search.placeholder = "search"
@@ -50,6 +51,19 @@ export const Header = () => {
 
     const pp = document.querySelector(".Profile");
     pp.addEventListener("click", getSavedPins);
+
+    const home = document.querySelector(".Home");
+    const explore = document.querySelector(".Explore");
+
+    home.addEventListener("click", () => {
+        store.setState({ currentPage: "Home", query: "random" });
+        window.location.hash = "#home";
+    });
+
+    explore.addEventListener("click", () => {
+        store.setState({ currentPage: "Explore", query: "crystal" });
+        window.location.hash = "#explore";
+    });
 
 }
 
