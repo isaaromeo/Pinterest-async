@@ -1,0 +1,20 @@
+@import "./components/Header/Header";
+@import "./components/Button/Button";
+// @import "./components/Pin/Pin1";
+@import "./components/Pin/Pin2";
+@import "./components/NavLink/NavLink";
+
+@import "./global/variables";
+
+@font-face {
+    font-family: 'Inter';
+    src:
+   local("Inter"),
+   url("../public/assets/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+   }
+
+   * {
+    font-family: "Inter";
+   }

@@ -1,0 +1,145 @@
+
+// Variables for colors and spacing
+$primary-color: #e60023; // Pinterest's red color
+$secondary-color: #333;
+$background-color: #f5f5f5;
+$border-radius: 16px;
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$pin-height: 1fr;
+
+.Body {
+    display: grid;
+}
+// Container for the pins grid
+.pin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, $pin-height));
+    gap: 16px;
+    padding: 16px;
+    
+  }
+
+@media (max-width: 768px) {
+    .pin-grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, $pin-height));
+    }
+  }
+  
+@media (max-width: 480px) {
+    .pin-grid {
+      grid-template-columns: $pin-height;
+    }
+  }
+// Base styles for the pin
+.pin {
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  grid-row-end: span 10;
+  
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  // Pin image
+  .pin-image {
+    width: 100%;
+    display: block;
+    // border-top-left-radius: $border-radius;
+    // border-top-right-radius: $border-radius;
+    border-radius: $border-radius;
+  }
+
+  // Botón de guardar
+  .pin-save-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  &:hover .pin-save-button {
+    opacity: 1;
+  }
+
+  // Pin content
+  .pin-content {
+    padding: 16px;
+    height: 20px;
+
+    .pin-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 0 8px;
+      color: $secondary-color;
+    }
+
+    // .pin-description {
+    //   font-size: 14px;
+    //   color: lighten($secondary-color, 20%);
+    //   margin: 0 0 12px;
+    // }
+    .pin-author-container{
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        align-items: center;
+        font-size: 12px;
+
+        .pin-author-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 20px;
+        }
+
+    }
+    
+
+    // Pin meta (likes and saves)
+    .pin-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: lighten($secondary-color, 30%);
+
+      .pin-likes,
+      .pin-saves {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+
+    // Pin tags
+    .pin-tags {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .tag {
+        background: $background-color;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        color: $secondary-color;
+      }
+    }
+  }
+}

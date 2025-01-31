@@ -1,0 +1,63 @@
+@import "../../global/_variables.scss";
+
+header {
+    height: 10svh;
+    max-height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding-left: 10px;
+
+    nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px
+    }
+
+    img {
+        width: 40px;
+    }
+
+    
+}
+
+.search {
+    width: 400px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    background-color: $secondary-grey;
+    gap: 5px;
+    padding: $primary-padding;
+    border-radius:30px;
+    align-items: center;
+
+    img {
+        width: 20px;
+        height: 20px;
+    }
+
+    input {
+        width: 350px;
+        background-color: $secondary-grey;
+        border: none;
+        &:focus {
+            outline: none;
+          }
+    }
+}
+
+.navButtons {
+
+    a {
+        background-color: black;
+        color: white;
+        padding: 15px;
+        border-radius: 40px;
+    }
+}
