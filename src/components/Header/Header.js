@@ -62,7 +62,7 @@ export const Header = () => {
     });
 
     explore.addEventListener("click", (e) => {
-        e.preventDefault();
+        e.preventDefault();// evita que haga reload por ser un <a> y que interrumpa el flujo de la app y que los estados de la pagina se actualicen correctamente
         store.setState({ currentPage: "Explore", query: "crystal" });
         window.location.hash = "#explore";
     });

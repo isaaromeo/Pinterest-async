@@ -139,7 +139,13 @@ export class Pin {
        author.classList.add("pin-author");
        author.textContent = this.author;
 
-       divContent.append(authorPP, author);
+       const more = document.createElement("img");
+       more.src = "/assets/imgs/more.png";
+       more.alt = "more";
+       more.classList.add("more");
+      
+
+       divContent.append(authorPP, author, more);
        div.append(imgContainer, divContent);
        location.append(div);
 
