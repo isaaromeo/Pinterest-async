@@ -52,23 +52,37 @@ export const Header = () => {
     const pp = document.querySelector(".Profile");
     pp.addEventListener("click", getSavedPins);
 
-    const home = document.querySelector(".Home");
-    const explore = document.querySelector(".Explore");
+    const home = document.querySelector("#Home");
+    home.classList.toggle("selected");
+    
+    const explore = document.querySelector("#Explore");
 
-    home.addEventListener("click", () => {
-        home.preventDefault();
+    home.addEventListener("click", (e) => {
+        e.preventDefault();
         store.setState({ currentPage: "Home", query: "random" });
         window.location.hash = "#home";
+        selectPage(home);
+        console.log("Home tiene la clase: ",home.className);
+        console.log("Explore tiene la clase: ", explore.className);
     });
 
     explore.addEventListener("click", (e) => {
         e.preventDefault();// evita que haga reload por ser un <a> y que interrumpa el flujo de la app y que los estados de la pagina se actualicen correctamente
-        store.setState({ currentPage: "Explore", query: "crystal" });
+        store.setState({ currentPage: "Explore", query: "purple" });
         window.location.hash = "#explore";
+        selectPage(explore);
+        console.log("Explore tiene la clase: ", explore.className);
+        console.log("Home tiene la clase: ",home.className);
     });
 
 }
 
-// export const buttonSelected = () => {
-//     nav
-// }
+
+const selectPage = (selectedElement) => {
+    // Remover la clase 'selected' de todos los enlaces
+    document.querySelectorAll('.navButtons a').forEach(link => {
+        link.classList.remove('selected');
+    });
+    // Añadir la clase 'selected' al enlace clickeado
+    selectedElement.classList.add('selected');
+};

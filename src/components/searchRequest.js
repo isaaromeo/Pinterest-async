@@ -4,16 +4,15 @@ const apiKey = import.meta.env.VITE_UNSPLASH_CLIENT_ID;
 
 
 // src/components/searchRequest.js
-export const request = async (query) => {
+export const request = async (query, page = 1) => {
     console.log("Entering request...");
 
     try {
         const res = await fetch(
-            `https://api.unsplash.com/search/photos?query=${query}&per_page=30&client_id=${apiKey}`
+            `https://api.unsplash.com/search/photos?query=${query}&page=${page}&per_page=30&client_id=${apiKey}`
         );
 
         console.log("Response status:", res.status); // Depuración
-        console.log("Response headers:", res.headers); // Depuración
 
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);

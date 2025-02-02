@@ -52,3 +52,4 @@ store.subscribe((state) => {
 
 // Renderiza la página inicial
 renderPage();
+

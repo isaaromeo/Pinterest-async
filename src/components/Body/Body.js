@@ -82,6 +82,24 @@ export const Body = () => {
     // Obtiene los datos de los pines
     getPinData(query);
 
+    // Configura el Intersection Observer
+    const observerTarget = document.createElement("div");
+    observerTarget.id = "observer-target";
+    document.body.append(observerTarget);
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    loadMoreImages();
+                }
+            });
+        },
+        { threshold: 1.0 }
+    );
+
+    observer.observe(observerTarget);   
+
     // Configura los event listeners
 
      window.addEventListener("load", () => {
@@ -100,6 +118,19 @@ export const Body = () => {
     input.addEventListener("change", async () => {
         clearGrid();
         await getPinData(input.value);
+        setTimeout(() => {
+            layoutMasonry();
+        }, 2000);
+        store.setState({ currentPage: "Search", query: `${input.value}` });
+    });
+
+    window.addEventListener("scroll", () => {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    
+        // Verifica si el usuario ha llegado al final de la página
+        if (scrollTop + clientHeight >= scrollHeight - 10) { // Margen de 10px
+            loadMoreImages();
+        }
         setTimeout(() => {
             layoutMasonry();
         }, 2000);
@@ -171,3 +202,25 @@ export const clearGrid = () => {
     const grid = document.querySelector(".pin-grid");
     grid.textContent = "";
 }
+
+let currentPage = 1; // Rastrea la página actual
+let isLoading = false; // Bandera para evitar cargas duplicadas
+
+const loadMoreImages = async () => {
+    if (isLoading) return; // Evita cargas duplicadas
+    isLoading = true;
+
+    const input = document.querySelector(".search-input");
+    currentPage++; // Incrementa el número de página
+    const query = store.state.query; // Obtén el query actual
+
+    try {
+        const pinData = await request(query, currentPage); // Pasa la página actual a la función request
+        const Pins = printBody(pinData); // Agrega las nuevas imágenes al DOM
+        console.log("Pins cargados:", Pins);
+    } catch (error) {
+        console.error("Error al cargar más imágenes:", error);
+    } finally {
+        isLoading = false; // Restablece la bandera
+    }
+};

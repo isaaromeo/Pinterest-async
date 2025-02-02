@@ -7,7 +7,7 @@ export const navLinks = ({path, text, img}) => {
     li.classList.add("navLink")
     a.href = path;
     a.textContent = text;
-    a.classList.add(`${text}`)
+    a.setAttribute("id", `${text}`)
 
     if(img != ""){
         const image = document.createElement("img");

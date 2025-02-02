@@ -14,4 +14,7 @@ export const renderPage = (page) => {
 
     // Renderiza el Body según la página
     Body();
+  
+    
 };
+

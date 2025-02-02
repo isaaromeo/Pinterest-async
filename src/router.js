@@ -34,7 +34,10 @@ export const router = {
             store.setState({ currentPage: "Home", query: "random" });
         },
         "#explore": () => {
-            store.setState({ currentPage: "Explore", query: "cat" });
+            store.setState({ currentPage: "Explore", query: "purple" });
+        },
+        "#search": () => {
+            store.setState({ currentPage: "Search", query: "purple" });
         },
     },
 

@@ -18,3 +18,8 @@
    * {
     font-family: "Inter";
    }
+
+#observer-target {
+    height: 10px; /* Altura mínima para que sea detectable */
+    visibility: hidden; /* Oculta el elemento */
+}
