@@ -1,0 +1,31 @@
+@import "../../global/_variables.scss";
+
+.dropdown {
+
+    position: absolute;
+    z-index: 1000;
+    
+
+    .dropdown-content {
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        min-width: 120px;
+
+        button {
+            display: block;
+            width: 100%;
+            padding: $primary-padding;
+            text-align: center;
+            background: none;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+}

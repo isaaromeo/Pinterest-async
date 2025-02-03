@@ -5,6 +5,7 @@ ul {
     gap: 40px;
     list-style: none;
     align-items: center;
+    padding-right: 30px;
 
     li {
         font-size: 1rem;
@@ -15,6 +16,7 @@ ul {
 
         img {
             width: 30px;
+            cursor: pointer;
         }
         
 

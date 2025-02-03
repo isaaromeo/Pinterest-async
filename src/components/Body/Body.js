@@ -1,65 +1,10 @@
-import { Pin } from "../Pin/Pin";
+import { getSavedPins, Pin } from "../Pin/Pin";
 import { layoutMasonry } from "../Pin/Pin";
 import { request } from "../searchRequest";
 import { store } from "../../store";
+import { Loader } from "../Loader/Loader";
 
 const apiKey = import.meta.env.VITE_UNSPLASH_CLIENT_ID;
-
-// export const Body = async (option = "Home") => {
-//     console.log("Entering Body() with option:", option); // Depuración
-
-//     const app = document.querySelector("#app");
-
-//     // Limpia el contenido anterior
-//     const main = document.createElement("div");
-//     main.classList.add("main");
-//      // Limpia el contenido anterior
-//     app.append(main);
-
-//     const pinGrid = document.createElement("div");
-//     pinGrid.classList.add("pin-grid");
-//     main.append(pinGrid);
-
-//     const input = document.querySelector(".search-input");
-
-//     let query;
-
-//     if (option === "Home") {
-//         query = input.value || "random";
-//     } else {
-//         query = "crystal";
-//     }
-
-//     console.log("Query:", query); // Depuración
-
-//     try {
-//         await getPinData(query); // Espera a que se complete la solicitud
-//     } catch (error) {
-//         console.error("Error in Body:", error); // Depuración
-//     }
-
-//     // Configura los event listeners después de que se complete la solicitud
-//     window.addEventListener("load", () => {
-//         console.log("load");
-//         setTimeout(() => {
-//             layoutMasonry();
-//         }, 2000);
-//         layoutMasonry();
-//     });
-
-//     window.addEventListener("resize", () => {
-//         console.log("resize");
-//         layoutMasonry();
-//     });
-
-//     input.addEventListener("change", async () => {
-//         clearGrid();
-//         await getPinData(input.value); // Espera a que se complete la solicitud
-//         setTimeout(() => {
-//             layoutMasonry();
-//         }, 2000);
-//     });
-// };
 
 export const Body = () => {
     const app = document.querySelector("#app");
@@ -74,54 +19,77 @@ export const Body = () => {
 
     const input = document.querySelector(".search-input");
 
+    // Mostrar el loader
+    const loader = Loader();
+    app.append(loader);
+
     // Usa el estado global para obtener el query
     const query = store.state.query;
 
     console.log("Query:", query); // Depuración
 
     // Obtiene los datos de los pines
-    getPinData(query);
+    // getPinData(query);
+
+    getPinData(query).finally(() => {
+        // Ocultar el loader después de que las imágenes se hayan cargado
+        app.removeChild(loader);
+    });
 
     // Configura el Intersection Observer
-    const observerTarget = document.createElement("div");
-    observerTarget.id = "observer-target";
-    document.body.append(observerTarget);
+    // const observerTarget = document.createElement("div");
+    // observerTarget.id = "observer-target";
+    // document.body.append(observerTarget);
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    loadMoreImages();
-                }
-            });
-        },
-        { threshold: 1.0 }
-    );
+    // const observer = new IntersectionObserver(
+    //     (entries) => {
+    //         entries.forEach((entry) => {
+    //             if (entry.isIntersecting) {
+    //                 loadMoreImages();
+    //             }
+    //         });
+    //     },
+    //     { threshold: 1.0 }
+    // );
 
-    observer.observe(observerTarget);   
+    // observer.observe(observerTarget);   
 
     // Configura los event listeners
 
      window.addEventListener("load", () => {
          console.log("load");
          setTimeout(() => {
+            console.log("layout 1")
              layoutMasonry();
          }, 2000);
+         console.log("layout 2")
          layoutMasonry();
      });
 
      window.addEventListener("resize", () => {
-         console.log("resize");
+        console.log("layout 3")
          layoutMasonry();
      });
 
     input.addEventListener("change", async () => {
         clearGrid();
+
+        // Mostrar el loader
+        const loader = Loader();
+        app.append(loader);
+        console.log("antes del timeout")
         await getPinData(input.value);
         setTimeout(() => {
-            layoutMasonry();
+            console.log("layout 4")
+            layoutMasonry()
+            app.replaceChild(loader)
+            
         }, 2000);
+        console.log("despues del timeout")
         store.setState({ currentPage: "Search", query: `${input.value}` });
+
+        // Ocultar el loader después de que las imágenes se hayan cargado
+        
     });
 
     window.addEventListener("scroll", () => {
@@ -132,9 +100,11 @@ export const Body = () => {
             loadMoreImages();
         }
         setTimeout(() => {
+            console.log("layout 5")
             layoutMasonry();
         }, 2000);
     });
+
 };
 
 export const printBody = (data) => {
@@ -159,8 +129,10 @@ export const printBody = (data) => {
                             0,
                             [],
                             result.updated_at,
-                            result.height
+                            result.height,
+                            result.urls.small_s3,
                             );
+        console.log(pin)                    
         pin.printPin(grid);
         PinArray.push(pin);//
         
@@ -176,6 +148,10 @@ export const printBody = (data) => {
 
 export const getPinData = async (query) => {
     console.log("Entering getPinData...");
+
+    // Mostrar el loader
+    const loader = Loader();
+    app.append(loader);    
     
     try {
         console.log(query)
@@ -185,8 +161,11 @@ export const getPinData = async (query) => {
         console.log("Pins:",  Pins);
         sessionStorage.setItem("pinInfo", JSON.stringify(Pins));
         setTimeout(() => {
+            console.log("layout 6")
             layoutMasonry();
+            app.removeChild(loader)
         }, 2000);
+        console.log("layout 7")
         layoutMasonry()
         
     } catch (error) {
@@ -214,6 +193,10 @@ const loadMoreImages = async () => {
     currentPage++; // Incrementa el número de página
     const query = store.state.query; // Obtén el query actual
 
+    // Mostrar el loader
+    const loader = Loader();
+    app.append(loader);   
+
     try {
         const pinData = await request(query, currentPage); // Pasa la página actual a la función request
         const Pins = printBody(pinData); // Agrega las nuevas imágenes al DOM
@@ -222,5 +205,6 @@ const loadMoreImages = async () => {
         console.error("Error al cargar más imágenes:", error);
     } finally {
         isLoading = false; // Restablece la bandera
+        app.removeChild(loader);
     }
 };

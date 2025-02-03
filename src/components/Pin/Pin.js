@@ -1,3 +1,5 @@
+import { Dropdown } from "../Dropdown/Dropdown";
+import { likesButton } from "../LikesButton/LikesButton";
 
 export class Pin {
     constructor(
@@ -14,6 +16,7 @@ export class Pin {
       comments = [],
       date,
       height,
+      download,
     ) {
       this.id = id;
       this.imageUrl = imageUrl;
@@ -28,6 +31,7 @@ export class Pin {
       this.comments = comments;
       this.date = date;
       this.height = height;
+      this.download = download;
     }
   
     like() {
@@ -119,7 +123,10 @@ export class Pin {
 
        })
 
-      imgContainer.append(img, saveButton)
+      // Botón de likes
+      const likes = likesButton(this.likes > 0); // Pasa el estado inicial (liked o no liked)
+
+      imgContainer.append(img, likes, saveButton);
 
        const divContent = document.createElement("div");
        divContent.classList.add("pin-content");
@@ -128,8 +135,8 @@ export class Pin {
        title.classList.add("pin-title");
        title.textContent = this.title;
 
-      const divAuthor = document.createElement("div");
-      divAuthor.classList.add("pin-author-container");
+       const divAuthor = document.createElement("div");
+       divAuthor.classList.add("pin-author-container");
 
        const authorPP = document.createElement("img");
        authorPP.classList.add("pin-author-img");
@@ -143,7 +150,29 @@ export class Pin {
        more.src = "/assets/imgs/more.png";
        more.alt = "more";
        more.classList.add("more");
-      
+       // Evento para mostrar el dropdown al hacer clic en los tres puntitos
+       more.addEventListener("click", (e) => {
+          e.stopPropagation(); // Evita que el evento se propague
+
+          // Crea el contenido del dropdown
+          const dropdownContent = `
+          <button class="dropdown-button">Download</button>
+          `;
+
+          // Muestra el dropdown
+          const dropdown = Dropdown(dropdownContent, more);
+          document.body.appendChild(dropdown);
+
+          // Evento para descargar la imagen
+          const downloadButton = dropdown.querySelector(".dropdown-button");
+          downloadButton.addEventListener("click", () => {
+              const link = document.createElement("a");
+              link.href = this.download;
+              link.download = `pin_${this.id}.jpg`; // Nombre del archivo descargado
+              link.click();
+              dropdown.remove(); // Cierra el dropdown después de la descarga
+            });
+        }); 
 
        divContent.append(authorPP, author, more);
        div.append(imgContainer, divContent);
@@ -219,7 +248,8 @@ export function getSavedPins() {
 
   }))
 
-  console.log(data)
+  console.log(data);
+  return data;
   
   
 }
